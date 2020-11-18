@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+public class Exercicio2 {
+
+	public static void main(String[] args) {
+		// Escreva um programa para ler as coordenadas (X,Y) de uma quantidade indeterminada de pontos no sistema
+		// cartesiano. Para cada ponto escrever o quadrante a que ele pertence. O algoritmo será encerrado quando pelo
+		// menos uma de duas coordenadas for NULA (nesta situação sem escrever mensagem alguma).
+		Scanner sc = new Scanner(System.in);
+		int x, y, condicao = 0;
+		
+		while (condicao == 0) {
+			System.out.println("Entre a coordenada X");
+			x = sc.nextInt();
+			System.out.println("Entre a coordenada Y");
+			y = sc.nextInt();
+			
+			if (x == 0 || y == 0) {
+				System.out.println("Sistema finalizado!");
+				condicao = 1;
+			}
+			
+			else if (x > 0 && y > 0) {
+				System.out.println("Primeiro Quadrante");
+			}
+			else if (x < 0 && y > 0) {
+				System.out.println("Segundo Quadrante");
+			}
+			else if (x < 0 && y < 0) {
+				System.out.println("Terceiro Quadrante");
+			}
+			else if (x > 0 && y < 0) {
+				System.out.println("Quarto Quadrante");
+			}			
+		}
+		
+		
+		sc.close();
+	}
+
+}

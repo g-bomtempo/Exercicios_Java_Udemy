@@ -2,4 +2,4 @@
 
 Exercicio 01 até 06 > Estrutura Sequencial
 
-Exercicio 07 até XX > Estrutura Condicional
+Exercicio 07 até 14 > Estrutura Condicional

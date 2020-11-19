@@ -1,0 +1,70 @@
+// ENTITIES
+
+package application;
+
+import java.util.Scanner;
+import entities.Rectangle;
+
+public class Exercicio1 {
+
+	public static void main(String[] args) {
+		// Fazer um programa para ler os valores da largura e altura de um retangulo. Em seguida, mostrar na tela o valor de sua area, perimetro e diagonal.
+		Scanner sc = new Scanner(System.in);
+		
+		Rectangle x;
+		x = new Rectangle();
+		
+		System.out.print("Enter rectangle width: ");
+		x.width = sc.nextInt();
+		System.out.print("Enter rectangle Height: ");
+		x.height = sc.nextInt();
+		
+		double area1 = x.area();
+		double perimetro1 = x.perimeter();
+		double diagonal = x.diagonal();
+		
+		System.out.println("AREA = " + area1);
+		System.out.println("PERIMETRO = " + perimetro1);
+		System.out.printf("DIAGONAL = %.2f%n", diagonal);
+			
+		
+		sc.close();
+	}
+
+}
+
+
+// APPLICATIONS
+
+package application;
+
+import java.util.Scanner;
+import entities.Rectangle;
+
+public class Exercicio1 {
+
+	public static void main(String[] args) {
+		// Fazer um programa para ler os valores da largura e altura de um retangulo. Em seguida, mostrar na tela o valor de sua area, perimetro e diagonal.
+		Scanner sc = new Scanner(System.in);
+		
+		Rectangle x;
+		x = new Rectangle();
+		
+		System.out.print("Enter rectangle width: ");
+		x.width = sc.nextInt();
+		System.out.print("Enter rectangle Height: ");
+		x.height = sc.nextInt();
+		
+		double area1 = x.area();
+		double perimetro1 = x.perimeter();
+		double diagonal = x.diagonal();
+		
+		System.out.println("AREA = " + area1);
+		System.out.println("PERIMETRO = " + perimetro1);
+		System.out.printf("DIAGONAL = %.2f%n", diagonal);
+			
+		
+		sc.close();
+	}
+
+}

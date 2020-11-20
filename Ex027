@@ -1,0 +1,60 @@
+// ENTITIES
+
+package entities;
+
+public class Student {
+	
+	public String name;
+	public double nota1;
+	public double nota2;
+	public double nota3;
+	
+	public String media() {
+		double media = nota1 + nota2 + nota3;
+		double falhou = 60 - media;
+		if (media < 60) {
+			return (media + "\nFALHOU \n" + "MISSING " + falhou + " PONTOS");
+		}
+		else {
+			return (media + "\nPASS");
+		}		
+	}
+}
+
+// APPLICATION
+
+package application;
+
+import java.util.Scanner;
+import entities.Student;
+
+public class Exercicio3 {
+
+	public static void main(String[] args) {
+		// Fazer um programa para ler o nome de um aluno e as tres notas que ele obteve nos tres trimestres do ano (primeiro trimestre vale 30 e o segundo e terceiro valem 35 cada).
+		// Ao final, mostrar qual a nota final do aluno no ano. Dizer também se o aluno está aprovado (PASS) ou não (FAILED) e, em caso negativo, quantos pontos faltam para o aluno 
+		// obter o mínimo para ser aprovado (que é 60% da nota).
+		
+		Scanner sc = new Scanner(System.in);
+		Student estudante = new Student();
+		
+		System.out.print("Nome: ");
+		estudante.name = sc.nextLine();		
+		
+		System.out.print("Entre a primeira nota: ");
+		estudante.nota1 = sc.nextDouble();		
+		
+		System.out.print("Entre a segunda nota: ");
+		estudante.nota2 = sc.nextDouble();		
+		
+		System.out.print("Entre a terceira nota: ");
+		estudante.nota3 = sc.nextDouble();
+		System.out.println();
+		
+		System.out.println("NOTA FINAL " + estudante.media());
+		
+		
+		sc.close();
+	}
+
+}

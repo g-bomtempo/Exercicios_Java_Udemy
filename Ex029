@@ -1,0 +1,103 @@
+// Application
+
+package application;
+import java.util.Scanner;
+import entities.Banco;
+
+public class Program2 {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		Banco banco;
+		
+		System.out.print("Entre o numero da conta: ");
+		int conta = sc.nextInt();		
+		System.out.print("Entre o nome do responsável: ");
+		sc.nextLine();
+		String nome = sc.nextLine();
+		System.out.print("Teremos um valor inicial depositado (s/n)? ");
+		char condicao = sc.next().charAt(0);
+		
+			
+		if (condicao == 's') {
+			System.out.print("Entre o valor inicial de deposito: ");
+			double depositoInicial = sc.nextDouble();
+			banco = new Banco(conta, nome, depositoInicial);
+		} 
+		else {
+			banco = new Banco(conta, nome);
+		} 
+		
+		System.out.println("Dados da conta: " + banco);
+		
+		System.out.print("Entre a quantidade a ser depositada: ");
+		double deposito = sc.nextDouble();
+		banco.depositar(deposito);
+		System.out.println("Dados da conta Atualizados: " + banco);
+		
+		System.out.print("Entre a quantidade a ser retirada: ");
+		double retirar = sc.nextDouble();
+		banco.retirar(retirar);
+		System.out.println("Dados da conta Atualizados: " + banco);		
+		
+		sc.close();		
+	}
+
+}
+
+
+// entities
+package entities;
+
+public class Banco {
+	
+	private int conta;
+	private String nome;
+	private double balanco;
+	
+	public Banco(int conta, String nome, double balanco) {
+		this.conta = conta;
+		this.nome = nome;
+		this.balanco = balanco;
+	}
+	
+	public Banco(int conta, String nome) {
+		this.conta = conta;
+		this.nome = nome;
+	}
+		
+	public int getConta() {
+		return conta;
+	}
+	
+	public String getNome() {
+		return nome;
+	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	public double getBalanco() {
+		return balanco;
+	}
+	
+	public void depositar(double dinheiro) {
+		balanco = balanco + dinheiro;
+	}
+	
+	public void retirar (double dinheiro) {
+		balanco = balanco - dinheiro - 5;
+	}
+	
+	public String toString(){
+		return "Conta " 
+				+ conta
+				+ ", Titular: "
+				+ nome
+				+ ", Balanço: R$ "
+				+ String.format("%.2f%n", balanco);
+	}
+	
+
+}

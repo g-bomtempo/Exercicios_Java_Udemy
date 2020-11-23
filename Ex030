@@ -1,0 +1,76 @@
+// Entities
+
+package entities;
+
+public class Aluguel {
+	
+	private String name;
+	private String email;	
+	
+	public Aluguel(String name, String email) {
+		this.name = name;
+		this.email = email;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public String toString(){
+		return name + ", " + email;
+	}
+}
+
+// Application
+
+package application;
+
+import java.util.Scanner;
+import entities.Aluguel;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		Aluguel[] vect = new Aluguel[10];
+				
+		System.out.println("Quantos quartos vão ser alugados: ");
+		int n = sc.nextInt();		
+		
+		for (int i = 0; i<n; i++) {	
+			System.out.println();
+			System.out.println("Quarto " + (i+1));
+			sc.nextLine();
+			System.out.print("Nome: ");			
+			String name = sc.nextLine();
+			System.out.print("Email: ");			
+			String email = sc.nextLine();
+			System.out.print("Quarto: ");
+			int quarto = sc.nextInt();
+			vect[quarto] = new Aluguel(name, email);
+		}
+		
+		System.out.println();
+		System.out.println("Quartos Alugados: ");
+		for (int i = 0; i < vect.length; i++) {
+			if (vect[i] != null) {
+				System.out.println(i + ":" + vect[i]);
+			}
+		}		
+		
+		sc.close();
+	}
+
+}

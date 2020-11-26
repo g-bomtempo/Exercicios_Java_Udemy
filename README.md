@@ -10,4 +10,4 @@ Exercicio 25 até 29 > Estrutura Orientada a Objetos
 
 Exercicio 30 > Estrutura Vetores, Arrays e listas
 
-Exercicio 31 e 32 > Enumerações e Composição
+Exercicio 31 a 33 > Enumerações e Composição

@@ -12,4 +12,4 @@ Exercicio 30 > Estrutura Vetores, Arrays e listas
 
 Exercicio 31 a 33 > Enumerações e Composição
 
-Exercicio 34  > Herança e Polimorfismo
+Exercicio 34 e 35 > Herança e Polimorfismo

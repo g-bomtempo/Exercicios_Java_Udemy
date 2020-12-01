@@ -1,0 +1,134 @@
+// EXCEPTIONS_DomainException
+
+package exceptions;
+
+public class DomainException extends RuntimeException{
+
+	private static final long serialVersionUID = 1L;
+	
+	public DomainException(String msg) {
+		super(msg);
+	}
+
+}
+
+// ENTITIES_Account
+
+package entities;
+
+import exceptions.DomainException;
+
+public class Account {
+	
+	private Integer number;
+	private String holder;
+	private Double balance;
+	private Double withdrawLimit;
+	
+	public Account() {		
+	}
+
+	public Account(Integer number, String holder, Double balance, Double withdrawLimit) {		
+		if (balance == 0) {
+			throw new DomainException("Balance can't be equal 0");
+		}				
+		this.number = number;
+		this.holder = holder;
+		this.balance = balance;
+		this.withdrawLimit = withdrawLimit;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+	
+	public String getHolder() {
+		return holder;
+	}
+
+	public void setHolder(String holder) {
+		this.holder = holder;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public Double getWithdrawLimit() {
+		return withdrawLimit;
+	}
+
+	public void setWithdrawLimit(Double withdrawLimit) {
+		this.withdrawLimit = withdrawLimit;
+	}
+
+	public void deposit(Double amount) {
+		this.balance = this.balance + amount;
+	}
+	
+	public void withdraw(Double amount) {
+		if (amount > withdrawLimit) {
+			throw new DomainException("The amount exceeds withdraw limit");			
+		}
+		if (amount > balance) {
+			throw new DomainException("Not enough balance");
+		}
+		this.balance = this.balance - amount;
+	}
+	
+	@Override
+	public String toString() {
+		return "New balance " + balance;
+	}	
+
+}
+
+//APPLICATION_Program
+
+package applicaiton;
+
+import java.util.Scanner;
+import entities.Account;
+import exceptions.DomainException;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		
+		try {
+			System.out.println("Enter account data");
+			System.out.print("Number: ");
+			int number = sc.nextInt();
+			System.out.print("Holder: ");
+			sc.nextLine();
+			String name = sc.nextLine();
+			System.out.print("Initial balance: ");
+			double balance = sc.nextDouble();
+			System.out.print("Withdraw limit: ");
+			double withdrawLimit = sc.nextDouble();
+			
+			Account acc = new Account(number, name, balance, withdrawLimit);
+			
+			System.out.println();
+			System.out.print("Enter amount for withdraw: ");
+			double withdraw = sc.nextDouble();
+			acc.withdraw(withdraw);
+			
+			System.out.println();
+			System.out.println(acc);
+		}
+		
+		catch (DomainException e) {
+			System.out.println("Withdraw error: " + e.getMessage());
+		}
+		catch (RuntimeException e) {
+			System.out.println("Unexpected error");
+		}
+		
+		
+		sc.close();
+	}
+
+}

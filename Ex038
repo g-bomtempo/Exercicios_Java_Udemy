@@ -1,0 +1,221 @@
+// application_Program
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Scanner;
+
+import model.entities.Contract;
+import model.entities.Installment;
+import model.services.ContractService;
+import model.services.OnlinePaymentService;
+import model.services.PaypalService;
+
+public class Program {
+
+	public static void main(String[] args) throws ParseException {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		Locale.setDefault(Locale.US);
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter contract data");
+		System.out.print("Number: ");
+		Integer number = sc.nextInt();
+		System.out.print("Date (dd/MM/yyyy): ");
+		Date date = sdf.parse(sc.next());
+		System.out.println("Contract value: ");
+		Double totalValue = sc.nextDouble();
+		
+		Contract contract = new Contract(number, date, totalValue);
+		
+		System.out.print("Enter number of installments: ");
+		int N = sc.nextInt();
+		
+		ContractService cs = new ContractService(new PaypalService());
+		
+		cs.processContract(contract, N);
+		
+		System.out.println("Installments: ");
+		for (Installment it : contract.getInstallments()) {
+			System.out.println(it);
+		}		
+			
+		sc.close();
+	}
+
+}
+
+// model.entities_Contract
+
+package model.entities;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class Contract {
+	
+	private Integer number;
+	private Date date;
+	private Double totalValue;
+	
+	List<Installment> installments = new ArrayList<Installment>();
+	
+	public Contract() {		
+	}
+
+	public Contract(Integer number, Date date, Double totalValue) {
+		this.number = number;
+		this.date = date;
+		this.totalValue = totalValue;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Double getTotalValue() {
+		return totalValue;
+	}
+
+	public void setTotalValue(Double totalValue) {
+		this.totalValue = totalValue;
+	}
+
+	public List<Installment> getInstallments() {
+		return installments;
+	}	
+
+}
+
+// model.entities_Installment
+
+package model.entities;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Installment {
+	
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	
+	private Date dueDate;
+	private Double amount;
+	
+	public Installment() {		
+	}
+
+	public Installment(Date dueDate, Double amount) {
+		this.dueDate = dueDate;
+		this.amount = amount;
+	}
+
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	@Override
+	public String toString() {
+		return sdf.format(dueDate) + " - " + String.format("%.2f", amount);
+	}
+
+}
+
+// model.services_ContractService
+
+package model.services;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import model.entities.Contract;
+import model.entities.Installment;
+
+public class ContractService {
+	
+	private OnlinePaymentService onlinePaymentService;
+	
+	public ContractService(OnlinePaymentService onlinePaymentService) {
+		this.onlinePaymentService = onlinePaymentService;
+	}
+	
+	public void processContract(Contract contract, int months) {
+		double basicQuota = contract.getTotalValue() / months;
+		for (int i = 1; i <= months; i++) {
+			double updatedQuota = basicQuota + onlinePaymentService.interest(basicQuota, i);
+			double fullQuota = updatedQuota + onlinePaymentService.paymentFee(updatedQuota);
+			Date dueDate = addMonths(contract.getDate(), i);
+			contract.getInstallments().add(new Installment(dueDate, fullQuota));
+			
+		}
+	}
+
+	
+	private Date addMonths(Date date, int N) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.MONTH, N);
+		return calendar.getTime();
+	}
+}
+
+// model.services_OnlinePaymentService
+
+package model.services;
+
+public interface OnlinePaymentService {
+	
+	double paymentFee(double amount);
+	double interest(double amount, int months);
+
+}
+
+
+// model.services_PaypalService
+
+package model.services;
+
+public class PaypalService implements OnlinePaymentService {
+	
+	private static final double PAYMENT_FEE = 0.02;
+	private static final double MONTHLY_INTEREST = 0.01;
+
+	@Override
+	public double paymentFee(double amount) {
+		return amount * PAYMENT_FEE;
+	}
+
+	@Override
+	public double interest(double amount, int months) {
+		return amount * months * MONTHLY_INTEREST;
+	}
+	
+}
+

@@ -19,3 +19,5 @@ Exercicio 36 > Tratamento de Exceções
 Exercicio 37 > Trabalhando com Arquivos
 
 Exercicio 38, 39 e 40 > Interface
+
+Exercicio 41 > Generics
